@@ -17,8 +17,50 @@ const words=[
  {word:'rain',meaning:'비',emoji:'🌧️',example:'I like the rain.',ko:'나는 비를 좋아해요.'},
  {word:'buy',meaning:'사다',emoji:'🛍️',example:'I buy some bread.',ko:'나는 빵을 사요.'},
  {word:'tired',meaning:'피곤한',emoji:'🥱',example:'I am tired today.',ko:'나는 오늘 피곤해요.'},
- {word:'banana',meaning:'바나나'},{word:'chair',meaning:'의자'},{word:'happy',meaning:'행복한'},{word:'water',meaning:'물'},{word:'walk',meaning:'걷다'}
+ {word:'banana',meaning:'바나나',emoji:'🍌',example:'I eat a banana.',ko:'나는 바나나를 먹어요.'},
+ {word:'chair',meaning:'의자',emoji:'🪑',example:'Sit on the chair.',ko:'의자에 앉으세요.'},
+ {word:'happy',meaning:'행복한',emoji:'😊',example:'I am happy today.',ko:'나는 오늘 행복해요.'},
+ {word:'water',meaning:'물',emoji:'💧',example:'I drink water.',ko:'나는 물을 마셔요.'},
+ {word:'walk',meaning:'걷다',emoji:'🚶',example:'I walk every morning.',ko:'나는 매일 아침 걸어요.'},
+ {word:'bread',meaning:'빵',emoji:'🍞',example:'This bread is fresh.',ko:'이 빵은 신선해요.'},
+ {word:'friend',meaning:'친구',emoji:'🤝',example:'She is my friend.',ko:'그녀는 내 친구예요.'},
+ {word:'sleep',meaning:'자다',emoji:'😴',example:'I sleep at ten.',ko:'나는 열 시에 자요.'},
+ {word:'coffee',meaning:'커피',emoji:'☕',example:'I like hot coffee.',ko:'나는 따뜻한 커피를 좋아해요.'},
+ {word:'window',meaning:'창문',emoji:'🪟',example:'Open the window.',ko:'창문을 여세요.'},
+ {word:'morning',meaning:'아침',emoji:'🌅',example:'Good morning!',ko:'좋은 아침이에요!'},
+ {word:'phone',meaning:'전화기',emoji:'📱',example:'My phone is new.',ko:'내 전화기는 새것이에요.'},
+ {word:'clean',meaning:'청소하다',emoji:'🧹',example:'I clean my room.',ko:'나는 내 방을 청소해요.'},
+ {word:'market',meaning:'시장',emoji:'🛒',example:'We go to the market.',ko:'우리는 시장에 가요.'},
+ {word:'cold',meaning:'추운',emoji:'🥶',example:'It is cold outside.',ko:'밖은 추워요.'},
+ {word:'book',meaning:'책',emoji:'📖',example:'I read a book.',ko:'나는 책을 읽어요.'},
+ {word:'wait',meaning:'기다리다',emoji:'⏳',example:'Please wait here.',ko:'여기서 기다려 주세요.'},
+ {word:'family',meaning:'가족',emoji:'👨‍👩‍👧',example:'I love my family.',ko:'나는 우리 가족을 사랑해요.'},
+ {word:'music',meaning:'음악',emoji:'🎵',example:'I listen to music.',ko:'나는 음악을 들어요.'},
+ {word:'shoes',meaning:'신발',emoji:'👟',example:'These shoes are nice.',ko:'이 신발은 멋져요.'},
+ {word:'bus',meaning:'버스',emoji:'🚌',example:'I take the bus.',ko:'나는 버스를 타요.'},
+ {word:'cook',meaning:'요리하다',emoji:'🍳',example:'I cook dinner.',ko:'나는 저녁을 요리해요.'},
+ {word:'weather',meaning:'날씨',emoji:'🌤️',example:'The weather is nice.',ko:'날씨가 좋아요.'},
+ {word:'small',meaning:'작은',emoji:'🐜',example:'I have a small bag.',ko:'나는 작은 가방이 있어요.'},
+ {word:'doctor',meaning:'의사',emoji:'🩺',example:'The doctor is kind.',ko:'그 의사는 친절해요.'},
+ {word:'door',meaning:'문',emoji:'🚪',example:'Close the door.',ko:'문을 닫으세요.'},
+ {word:'lunch',meaning:'점심',emoji:'🍱',example:'I eat lunch at noon.',ko:'나는 정오에 점심을 먹어요.'},
+ {word:'study',meaning:'공부하다',emoji:'✏️',example:'I study English.',ko:'나는 영어를 공부해요.'},
+ {word:'kind',meaning:'친절한',emoji:'💛',example:'My neighbor is kind.',ko:'내 이웃은 친절해요.'},
+ {word:'money',meaning:'돈',emoji:'💵',example:'I need some money.',ko:'나는 돈이 조금 필요해요.'},
+ {word:'umbrella',meaning:'우산',emoji:'☔',example:'I need an umbrella.',ko:'나는 우산이 필요해요.'},
+ {word:'listen',meaning:'듣다',emoji:'👂',example:'Listen to me.',ko:'내 말을 들어보세요.'},
+ {word:'home',meaning:'집',emoji:'🏠',example:'I am at home.',ko:'나는 집에 있어요.'},
+ {word:'early',meaning:'일찍',emoji:'⏰',example:'I wake up early.',ko:'나는 일찍 일어나요.'},
+ {word:'store',meaning:'가게',emoji:'🏪',example:'The store is open.',ko:'가게가 열려 있어요.'},
+ {word:'help',meaning:'돕다',emoji:'🙋',example:'Can you help me?',ko:'나를 도와줄 수 있나요?'},
+ {word:'ticket',meaning:'표',emoji:'🎫',example:'I have a ticket.',ko:'나는 표가 있어요.'},
+ {word:'warm',meaning:'따뜻한',emoji:'🌞',example:'The soup is warm.',ko:'수프가 따뜻해요.'},
+ {word:'picture',meaning:'사진',emoji:'🖼️',example:'This is my picture.',ko:'이것은 내 사진이에요.'},
+ {word:'finish',meaning:'끝내다',emoji:'✅',example:'I finish my work.',ko:'나는 일을 끝내요.'}
 ];
+const dayNumber=Math.floor(new Date().setHours(0,0,0,0)/86400000);
+const startIndex=(dayNumber*5)%words.length;
+const today=Array.from({length:5},(_,i)=>words[(startIndex+i)%words.length]);
 let screen='start',index=0,score=0,answered=false,writeFirstTry=true;
 const app=document.querySelector('#app');
 function go(next){screen=next;index=0;answered=false;if(next==='start'||next==='learn')score=0;render()}
@@ -26,14 +68,14 @@ function header(title,stage){return `<header class="header"><button onclick="go(
 function next(nextScreen){answered=false;writeFirstTry=true;if(index===4){screen=nextScreen;index=0}else index++;render()}
 function say(text){if(!window.speechSynthesis)return; speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=.85;speechSynthesis.speak(u)}
 function start(){app.className='app center start';app.innerHTML=`<div class="logo">A</div><p class="tag">매일 가볍게, 딱 다섯 개</p><h1>오늘의<br><em>5단어</em></h1><p class="intro">보고, 고르고, 직접 쓰며<br>영어 단어를 익혀보세요.</p><button class="primary" onclick="go('learn')">게임 시작 →</button><button class="small-menu" onclick="go('soon')">💬 이 말 영어로 뭐야? <span>준비 중</span></button>`}
-function learn(){const w=words[index];app.className='app';app.innerHTML=header('단어 배우기',0)+`<section class="card"><div class="emoji">${w.emoji}</div><h2 class="word">${w.word}</h2><p class="meaning">${w.meaning}</p><button class="speak" onclick="say('${w.word}')">🔊 발음 듣기</button><div class="example"><b>${w.example}</b><span>${w.ko}</span></div></section><button class="primary bottom" onclick="next('quiz')">${index===4?'문제 풀기':'다음'} →</button>`}
-function choices(){const w=words[index];return [w,words[index+5],words[(index+7)%10]].sort((a,b)=>(a.word+w.word).localeCompare(b.word+w.word))}
-function pick(word){if(answered)return;answered=true;const ok=word===words[index].word;if(ok)score++;document.querySelectorAll('.answers button').forEach(b=>{if(b.dataset.word===words[index].word)b.classList.add('good');else if(b.dataset.word===word)b.classList.add('bad');b.disabled=true});const box=document.querySelector('#feedback');box.className='feedback '+(ok?'':'bad');box.innerHTML=`${ok?'정답! +1 ⭐':`정답은 '${words[index].meaning}'이에요.`}<button onclick="next('write')">다음 →</button>`}
-function quiz(){const w=words[index];app.className='app';app.innerHTML=header('뜻 맞히기',1)+`<div class="score">⭐ ${score}</div><section class="question"><div class="emoji">${w.emoji}</div><h2 class="word">${w.word}</h2><p>무슨 뜻일까요?</p></section><div class="answers">${choices().map(o=>`<button data-word="${o.word}" onclick="pick('${o.word}')">${o.meaning}</button>`).join('')}</div><div id="feedback"></div>`}
-function showAnswer(){const w=words[index];document.querySelector('#hint').innerHTML=`정답을 보고 다시 입력해 보세요.<b>${[...w.word].join(' ')}</b>`;document.querySelector('input').focus()}
-function check(){if(answered)return;const input=document.querySelector('input'),typed=input.value.trim().toLowerCase(),w=words[index];if(!typed)return;if(typed===w.word){answered=true;if(writeFirstTry)score++;next('result');return}writeFirstTry=false;const hint=[...w.word].map((letter,i)=>typed[i]===letter?letter:'_').join(' ');document.querySelector('#hint').innerHTML=`맞은 글자는 남겨뒀어요. 다시 써보세요.<b>${hint}</b><button type="button" onclick="showAnswer()">정답 보기</button>`;input.value='';input.focus()}
-function write(){const w=words[index];app.className='app';app.innerHTML=header('직접 쓰기',2)+`<div class="score">⭐ ${score}</div><section class="write"><div class="emoji">${w.emoji}</div><h2>${w.meaning}</h2><p>영어로 써보세요.</p></section><div id="hint" class="hint"></div><form class="write-form" onsubmit="event.preventDefault();check()"><input aria-label="영어 단어 입력" placeholder="영어 단어 입력" autocomplete="off"><button class="primary">확인</button></form><div id="feedback"></div>`}
-function result(){app.className='app center result';app.innerHTML=`<div class="party">🎉</div><p class="tag">TODAY COMPLETE</p><h1>오늘의 5단어<br>완료!</h1><div class="result-score"><b>${score} / 10</b>정답</div><div class="learned"><p>오늘 배운 단어</p>${words.slice(0,5).map(w=>`<span>${w.emoji} ${w.word}</span>`).join('')}</div><button class="primary" onclick="go('learn')">다시 하기</button><button class="secondary" onclick="go('start')">처음으로</button>`}
+function learn(){const w=today[index];app.className='app';app.innerHTML=header('단어 배우기',0)+`<section class="card"><div class="emoji">${w.emoji}</div><h2 class="word">${w.word}</h2><p class="meaning">${w.meaning}</p><button class="speak" onclick="say('${w.word}')">🔊 발음 듣기</button><div class="example"><b>${w.example}</b><span>${w.ko}</span></div></section><button class="primary bottom" onclick="next('quiz')">${index===4?'문제 풀기':'다음'} →</button>`}
+function choices(){const w=today[index],pool=words.filter(x=>x.word!==w.word);return [w,pool[(startIndex+index+7)%pool.length],pool[(startIndex+index+19)%pool.length]].sort((a,b)=>(a.word+w.word).localeCompare(b.word+w.word))}
+function pick(word){if(answered)return;answered=true;const ok=word===today[index].word;if(ok)score++;document.querySelectorAll('.answers button').forEach(b=>{if(b.dataset.word===today[index].word)b.classList.add('good');else if(b.dataset.word===word)b.classList.add('bad');b.disabled=true});const box=document.querySelector('#feedback');box.className='feedback '+(ok?'':'bad');box.innerHTML=`${ok?'정답! +1 ⭐':`정답은 '${today[index].meaning}'이에요.`}<button onclick="next('write')">다음 →</button>`}
+function quiz(){const w=today[index];app.className='app';app.innerHTML=header('뜻 맞히기',1)+`<div class="score">⭐ ${score}</div><section class="question"><div class="emoji">${w.emoji}</div><h2 class="word">${w.word}</h2><p>무슨 뜻일까요?</p></section><div class="answers">${choices().map(o=>`<button data-word="${o.word}" onclick="pick('${o.word}')">${o.meaning}</button>`).join('')}</div><div id="feedback"></div>`}
+function showAnswer(){const w=today[index];document.querySelector('#hint').innerHTML=`정답을 보고 다시 입력해 보세요.<b>${[...w.word].join(' ')}</b>`;document.querySelector('input').focus()}
+function check(){if(answered)return;const input=document.querySelector('input'),typed=input.value.trim().toLowerCase(),w=today[index];if(!typed)return;if(typed===w.word){answered=true;if(writeFirstTry)score++;next('result');return}writeFirstTry=false;const hint=[...w.word].map((letter,i)=>typed[i]===letter?letter:'_').join(' ');document.querySelector('#hint').innerHTML=`맞은 글자는 남겨뒀어요. 다시 써보세요.<b>${hint}</b><button type="button" onclick="showAnswer()">정답 보기</button>`;input.value='';input.focus()}
+function write(){const w=today[index];app.className='app';app.innerHTML=header('직접 쓰기',2)+`<div class="score">⭐ ${score}</div><section class="write"><div class="emoji">${w.emoji}</div><h2>${w.meaning}</h2><p>영어로 써보세요.</p></section><div id="hint" class="hint"></div><form class="write-form" onsubmit="event.preventDefault();check()"><input aria-label="영어 단어 입력" placeholder="영어 단어 입력" autocomplete="off"><button class="primary">확인</button></form><div id="feedback"></div>`}
+function result(){app.className='app center result';app.innerHTML=`<div class="party">🎉</div><p class="tag">TODAY COMPLETE</p><h1>오늘의 5단어<br>완료!</h1><div class="result-score"><b>${score} / 10</b>정답</div><div class="learned"><p>오늘 배운 단어</p>${today.map(w=>`<span>${w.emoji} ${w.word}</span>`).join('')}</div><button class="primary" onclick="go('learn')">다시 하기</button><button class="secondary" onclick="go('start')">처음으로</button>`}
 function soon(){app.className='app center soon';app.innerHTML=`<div class="soon-icon">💬</div><p class="tag">COMING SOON</p><h1>이 말 영어로<br>뭐야?</h1><p class="intro">한국어를 쉬운 영어로 바꿔주는 기능을 준비하고 있어요.</p><button class="primary" onclick="go('start')">처음으로</button>`}
 function render(){({start,learn,quiz,write,result,soon})[screen]()};render();
 </script></body></html>
