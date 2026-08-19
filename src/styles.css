@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Noto+Sans+KR:wght@500;600;700;800&display=swap');
+
+:root { font-family: 'Noto Sans KR', sans-serif; color: #20242f; background: #f6f5f0; font-synthesis: none; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 4px solid #ffd2c7; outline-offset: 2px; }
+.app { min-height: 100vh; background: radial-gradient(circle at 50% -5%, #fff 0, #f8f7f2 46%, #f1efe8 100%); }
+.screen { width: min(100%, 520px); min-height: 100vh; margin: 0 auto; padding: 30px 24px; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.kicker { margin: 0 0 10px; color: #f06449; font-size: 14px; font-weight: 800; letter-spacing: .12em; }
+.primary, .secondary { width: 100%; min-height: 58px; border-radius: 18px; border: 0; font-weight: 800; font-size: 18px; }
+.primary { background: linear-gradient(135deg, #ff7455, #fa5f43); color: white; box-shadow: 0 10px 25px #f2705040; }
+.primary:disabled { opacity: .45; cursor: default; }
+.primary span { float: right; }
+.secondary { margin-top: 12px; background: white; color: #555b67; border: 1.5px solid #deddd8; }
+
+.start { justify-content: center; text-align: center; }
+.start::before, .start::after { content: ''; position: absolute; border-radius: 50%; background: #ffe6dd; z-index: 0; }
+.start::before { width: 220px; height: 220px; top: -100px; right: -100px; }
+.start::after { width: 160px; height: 160px; bottom: 20px; left: -110px; background: #dff2eb; }
+.start > * { position: relative; z-index: 1; }
+.logo { width: 104px; height: 104px; margin: 0 auto 30px; display: grid; place-items: center; border-radius: 30px; background: #fff; color: #f46348; font: 900 50px/1 'Nunito'; box-shadow: 0 18px 45px #36322618; transform: rotate(-4deg); }
+.logo span { position: absolute; transform: translate(40px, 38px) rotate(4deg); display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; color: white; background: #3bb890; font: 800 19px 'Noto Sans KR'; }
+.start h1, .result h1, .soon h1 { margin: 0; font-size: clamp(46px, 14vw, 68px); line-height: 1.05; letter-spacing: -.06em; }
+.start h1 em { color: #f06449; font-style: normal; }
+.intro { margin: 22px 0 42px; color: #727782; font-size: 17px; line-height: 1.75; }
+.mini-menu { margin: 24px auto 0; min-height: 48px; padding: 0 16px; border: 0; background: transparent; color: #555b67; font-weight: 700; }
+.mini-menu small { margin-left: 7px; padding: 4px 8px; border-radius: 20px; background: #e9e7e1; color: #8b8e94; }
+
+.game { padding-top: 22px; }
+.game-header { display: grid; grid-template-columns: 48px 1fr 48px; gap: 12px; align-items: center; }
+.game-header > button { width: 48px; height: 48px; border: 0; border-radius: 50%; background: #ebe9e3; color: #73767d; font-size: 30px; }
+.game-header p { margin: 0 0 8px; text-align: center; font-size: 14px; font-weight: 800; color: #777a82; }
+.game-header strong { text-align: right; font: 900 20px 'Nunito'; color: #f06449; }
+.game-header small { color: #9a9da4; font-size: 13px; }
+.progress { height: 8px; overflow: hidden; background: #e4e2dc; border-radius: 10px; }
+.progress span { display: block; height: 100%; background: linear-gradient(90deg, #ff7252, #ff9a64); border-radius: inherit; transition: width .25s; }
+.score { align-self: flex-end; margin-top: 18px; padding: 7px 12px; border-radius: 20px; color: #936a19; background: #fff2bf; font: 900 16px 'Nunito'; }
+.card { margin: 34px 0 22px; padding: 36px 26px 26px; background: #fff; border: 1px solid #eae8e2; border-radius: 32px; text-align: center; box-shadow: 0 18px 50px #36322612; }
+.word-view .emoji, .write-question .emoji { font-size: 78px; line-height: 1.2; filter: drop-shadow(0 9px 8px #342b1d1a); }
+.word-view h2 { margin: 16px 0 0; font: 900 42px/1.1 'Nunito'; letter-spacing: -.03em; }
+.word-view p { margin: 8px 0 20px; color: #666b76; font-size: 21px; font-weight: 700; }
+.speak { min-height: 48px; padding: 0 19px; border: 0; border-radius: 16px; background: #fff1ed; color: #dc583f; font-weight: 800; }
+.example { margin-top: 28px; padding: 19px 16px; border-radius: 18px; background: #f7f6f2; display: flex; flex-direction: column; gap: 7px; }
+.example strong { font: 800 19px 'Nunito'; }
+.example span { color: #777b84; font-size: 15px; }
+.bottom { margin-top: auto; }
+
+.question, .write-question { margin: 30px 0 24px; text-align: center; }
+.word-view.small .emoji { font-size: 68px; }
+.word-view.small h2 { margin-top: 10px; font-size: 38px; }
+.word-view.small p { display: none; }
+.question > p, .write-question > p { color: #666b76; font-size: 18px; font-weight: 700; }
+.options { display: grid; gap: 12px; }
+.options button { min-height: 62px; padding: 0 20px; border-radius: 18px; border: 2px solid #e5e3de; background: white; color: #30343d; font-size: 19px; font-weight: 800; display: flex; align-items: center; justify-content: space-between; }
+.options button.right { border-color: #3db78f; background: #e9f8f2; color: #167d60; }
+.options button.wrong { border-color: #ef7259; background: #fff0ec; color: #c84630; }
+.feedback { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; padding: 22px max(24px, calc((100vw - 472px) / 2)); background: #e5f7f0; color: #167d60; border-top: 1px solid #b8e7d8; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.feedback.wrong { background: #fff0ec; color: #b94632; border-color: #f4c6bc; }
+.feedback strong { font-size: 17px; }
+.feedback button { min-height: 48px; padding: 0 18px; flex-shrink: 0; border: 0; border-radius: 14px; background: #2fa983; color: white; font-weight: 800; }
+.feedback.wrong button { background: #e2644b; }
+.write-question { margin-top: 50px; }
+.write-question h2 { margin: 10px 0 0; font-size: 32px; }
+.write-form input { width: 100%; height: 64px; margin-bottom: 14px; padding: 0 20px; border: 2px solid #deddd8; border-radius: 18px; background: #fff; text-align: center; font: 800 21px 'Nunito'; }
+
+.result { justify-content: center; text-align: center; }
+.party, .soon-icon { font-size: 72px; margin-bottom: 18px; }
+.result h1, .soon h1 { font-size: 44px; }
+.result-score { width: 180px; height: 120px; margin: 28px auto; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 30px; background: #fff2c6; color: #8d681c; transform: rotate(-2deg); }
+.result-score strong { font: 900 38px 'Nunito'; }
+.result-score span { font-size: 15px; font-weight: 800; }
+.learned { margin-bottom: 28px; padding: 20px; border-radius: 22px; background: #fff; }
+.learned > p { margin: 0 0 14px; color: #777b84; font-weight: 700; }
+.learned div { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.learned span { padding: 7px 10px; border-radius: 12px; background: #f2f0eb; font: 800 14px 'Nunito'; }
+.soon { justify-content: center; text-align: center; }
+.soon > p:not(.kicker) { margin: 24px 0 40px; color: #737782; font-size: 18px; line-height: 1.7; }
+
+@media (min-width: 700px) { .screen { min-height: 780px; margin-top: 28px; border-radius: 36px; background: #faf9f5; box-shadow: 0 24px 70px #2a251e18; } .app { padding-bottom: 28px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
