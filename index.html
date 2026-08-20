@@ -66,7 +66,24 @@ const app=document.querySelector('#app');
 function go(next){screen=next;index=0;answered=false;if(next==='start'||next==='learn')score=0;render()}
 function header(title,stage){return `<header class="header"><button onclick="go('start')" aria-label="처음으로">×</button><div><p>${title}</p><div class="progress"><i style="width:${((stage*5+index+1)/15)*100}%"></i></div></div><b>${index+1}<small>/5</small></b></header>`}
 function next(nextScreen){answered=false;writeFirstTry=true;if(index===4){screen=nextScreen;index=0}else index++;render()}
-function say(text){if(!window.speechSynthesis)return; speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=.85;speechSynthesis.speak(u)}
+let englishVoice=null;
+function chooseEnglishVoice(){
+ if(!window.speechSynthesis)return;
+ const voices=speechSynthesis.getVoices().filter(v=>/^en[-_]/i.test(v.lang));
+ const preferred=['premium','enhanced','natural','ava','samantha','zoe','google us english','microsoft aria','microsoft jenny'];
+ englishVoice=voices.sort((a,b)=>{
+  const score=v=>preferred.reduce((total,name,i)=>total+(v.name.toLowerCase().includes(name)?100-i:0),0)+(v.lang==='en-US'?20:0)+(v.localService?5:0);
+  return score(b)-score(a);
+ })[0]||null;
+}
+if(window.speechSynthesis){chooseEnglishVoice();speechSynthesis.addEventListener('voiceschanged',chooseEnglishVoice)}
+function say(text){
+ if(!window.speechSynthesis)return;
+ chooseEnglishVoice();speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=.92;u.pitch=1;u.volume=1;
+ if(englishVoice)u.voice=englishVoice;
+ speechSynthesis.speak(u);
+}
 function start(){app.className='app center start';app.innerHTML=`<div class="logo">A</div><p class="tag">매일 가볍게, 딱 다섯 개</p><h1>오늘의<br><em>5단어</em></h1><p class="intro">보고, 고르고, 직접 쓰며<br>영어 단어를 익혀보세요.</p><button class="primary" onclick="go('learn')">게임 시작 →</button><button class="small-menu" onclick="go('soon')">💬 이 말 영어로 뭐야? <span>준비 중</span></button>`}
 function learn(){const w=today[index];app.className='app';app.innerHTML=header('단어 배우기',0)+`<section class="card"><div class="emoji">${w.emoji}</div><h2 class="word">${w.word}</h2><p class="meaning">${w.meaning}</p><button class="speak" onclick="say('${w.word}')">🔊 발음 듣기</button><div class="example"><b>${w.example}</b><span>${w.ko}</span></div></section><button class="primary bottom" onclick="next('quiz')">${index===4?'문제 풀기':'다음'} →</button>`}
 function choices(){const w=today[index],pool=words.filter(x=>x.word!==w.word);return [w,pool[(startIndex+index+7)%pool.length],pool[(startIndex+index+19)%pool.length]].sort((a,b)=>(a.word+w.word).localeCompare(b.word+w.word))}
